@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Nowadays.Application.Features.Commands.Company.CreateCompany;
 using Nowadays.Application.Features.Commands.Company.DeleteCompany;
 using Nowadays.Application.Features.Commands.Company.UpdateCompany;
-using Nowadays.Application.Features.Queries.GetCompanies;
-using Nowadays.Application.Features.Queries.GetCompanyById;
+using Nowadays.Application.Features.Queries.Company.GetCompanies;
+using Nowadays.Application.Features.Queries.Company.GetCompanyById;
 
 namespace Nowadays.API.Controllers
 {

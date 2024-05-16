@@ -24,6 +24,7 @@ namespace Nowadays.Persistence
       services.AddScoped<IProjectWriteRepository, ProjectWriteRepository>();
 
       services.AddScoped<ICompanyService, CompanyService>();
+      services.AddScoped<IProjectService, ProjectService>();
     }
   }
 }
