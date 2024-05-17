@@ -9,5 +9,6 @@ namespace Nowadays.Application.Abstractions.Services
     Task<Issue> CreateIssueAsync(Issue issue);
     Task<Issue> UpdateIssueAsync(Issue issue);
     Task DeleteIssueAsync(Guid id);
+    Task AssignEmployeeAsync(Guid issueId, Guid employeeId);
   }
 }

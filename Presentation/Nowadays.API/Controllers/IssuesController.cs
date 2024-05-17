@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Nowadays.Application.Features.Commands.Issue.AssignEmployeeToIssue;
 using Nowadays.Application.Features.Commands.Issue.CreateIssue;
 using Nowadays.Application.Features.Commands.Issue.DeleteIssue;
 using Nowadays.Application.Features.Commands.Issue.UpdateIssue;
@@ -27,14 +28,14 @@ namespace Nowadays.API.Controllers
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetIssueById(Guid id)
+    public async Task<IActionResult> GetIssueById([FromRoute] Guid id)
     {
       var issue = await _mediator.Send(new GetIssueByIdQueryRequest { Id = id });
       return Ok(issue);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteIssue(Guid id)
+    public async Task<IActionResult> DeleteIssue([FromRoute] Guid id)
     {
       await _mediator.Send(new DeleteIssueCommandRequest { Id = id });
       return NoContent();
@@ -52,6 +53,13 @@ namespace Nowadays.API.Controllers
     {
       var issue = await _mediator.Send(request);
       return Ok(issue);
+    }
+
+    [HttpPost("assign-employee")]
+    public async Task<IActionResult> AssignEmployee([FromBody] AssignEmployeeToIssueCommandRequest request)
+    {
+      await _mediator.Send(request);
+      return Ok();
     }
   }
 }

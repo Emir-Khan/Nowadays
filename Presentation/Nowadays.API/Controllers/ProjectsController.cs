@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Nowadays.Application.Features.Commands.Project.AssignEmployee;
 using Nowadays.Application.Features.Commands.Project.CreateProject;
 using Nowadays.Application.Features.Commands.Project.DeleteProject;
 using Nowadays.Application.Features.Commands.Project.UpdateProject;
@@ -34,7 +35,7 @@ namespace Nowadays.API.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProject(CreateProjectCommandRequest command)
+    public async Task<IActionResult> CreateProject([FromBody] CreateProjectCommandRequest command)
     {
       var response = await _mediator.Send(command);
       return CreatedAtAction(nameof(CreateProject), new { id = response.Id }, response);
@@ -48,7 +49,14 @@ namespace Nowadays.API.Controllers
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateProject(UpdateProjectCommandRequest request)
+    public async Task<IActionResult> UpdateProject([FromBody] UpdateProjectCommandRequest request)
+    {
+      var response = await _mediator.Send(request);
+      return Ok(response);
+    }
+
+    [HttpPost("assign-employee")]
+    public async Task<IActionResult> AssignEmployee([FromBody] AssignEmployeeToProjectCommandRequest request)
     {
       var response = await _mediator.Send(request);
       return Ok(response);

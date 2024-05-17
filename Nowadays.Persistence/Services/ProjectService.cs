@@ -9,11 +9,24 @@ namespace Nowadays.Persistence.Services
   {
     readonly IProjectReadRepository _projectReadRepository;
     readonly IProjectWriteRepository _projectWriteRepository;
+    readonly IEmployeeReadRepository _employeeReadRepository;
 
-    public ProjectService(IProjectReadRepository projectReadRepository, IProjectWriteRepository projectWriteRepository)
+    public ProjectService(IProjectReadRepository projectReadRepository, IProjectWriteRepository projectWriteRepository, IEmployeeReadRepository employeeReadRepository)
     {
       _projectReadRepository = projectReadRepository;
       _projectWriteRepository = projectWriteRepository;
+      _employeeReadRepository = employeeReadRepository;
+    }
+
+    public async Task AssignEmployeeAsync(Guid projectId, Guid employeeId)
+    {
+      var project = await _projectReadRepository.GetByIdAsync(projectId.ToString());
+      var employee = await _employeeReadRepository.GetByIdAsync(employeeId.ToString(), false);
+
+      project.Employees = [employee];
+      _projectWriteRepository.Update(project);
+
+      await _projectWriteRepository.SaveAsync();
     }
 
     public async Task<Project> CreateAsync(Project project)

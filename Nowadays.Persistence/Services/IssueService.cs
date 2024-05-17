@@ -9,11 +9,26 @@ namespace Nowadays.Persistence.Services
   {
     readonly IIssueReadRepository _issueReadRepository;
     readonly IIssueWriteRepository _issueWriteRepository;
+    readonly IEmployeeReadRepository _employeeReadRepository;
 
-    public IssueService(IIssueReadRepository issueReadRepository, IIssueWriteRepository issueWriteRepository)
+    public IssueService(IIssueReadRepository issueReadRepository, IIssueWriteRepository issueWriteRepository, IEmployeeReadRepository employeeReadRepository)
     {
       _issueReadRepository = issueReadRepository;
       _issueWriteRepository = issueWriteRepository;
+      _employeeReadRepository = employeeReadRepository;
+    }
+
+    public async Task AssignEmployeeAsync(Guid issueId, Guid employeeId)
+    {
+      var issue = await _issueReadRepository.GetByIdAsync(issueId.ToString());
+      var employee = await _employeeReadRepository.Table.Where(e => e.Id == employeeId)
+        .Include(e => e.Projects)
+        .FirstOrDefaultAsync() ?? throw new Exception("Employee not found");
+
+      issue.Employees = [employee];
+      _issueWriteRepository.Update(issue);
+
+      await _issueWriteRepository.SaveAsync();
     }
 
     public async Task<Issue> CreateIssueAsync(Issue issue)

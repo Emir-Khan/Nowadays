@@ -9,5 +9,6 @@ namespace Nowadays.Application.Abstractions.Services
     Task<Project> GetByIdAsync(Guid id);
     Task<IEnumerable<Project>> GetAllAsync();
     Task DeleteAsync(Guid id);
+    Task AssignEmployeeAsync(Guid projectId, Guid employeeId);
   }
 }
