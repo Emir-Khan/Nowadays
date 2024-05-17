@@ -37,7 +37,7 @@ namespace Nowadays.API.Controllers
     public async Task<IActionResult> CreateProject(CreateProjectCommandRequest command)
     {
       var response = await _mediator.Send(command);
-      return CreatedAtAction(nameof(GetProjectById), new { id = response.Id }, response);
+      return CreatedAtAction(nameof(CreateProject), new { id = response.Id }, response);
     }
 
     [HttpDelete("{id}")]
