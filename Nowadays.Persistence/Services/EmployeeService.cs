@@ -18,6 +18,7 @@ namespace Nowadays.Persistence.Services
 
     public async Task<Employee> CreateEmployeeAsync(Employee employee)
     {
+      // todo check tckn
       await _employeeWriteRepository.AddAsync(employee);
       await _employeeWriteRepository.SaveAsync();
       return employee;
@@ -32,6 +33,16 @@ namespace Nowadays.Persistence.Services
     public async Task<Employee> GetEmployeeByIdAsync(Guid id)
     {
       return await _employeeReadRepository.GetByIdAsync(id.ToString(), false);
+    }
+
+    public async Task<IEnumerable<Employee>> GetEmployeeDetailsAsync(Guid? id = null)
+    {
+      IQueryable<Employee> query = _employeeReadRepository.GetAll(false);
+
+      if (id.HasValue)
+        query = query.Where(e => e.Id == id);
+
+      return await query.Include(e => e.Projects).Include(e => e.Issues).ToListAsync();
     }
 
     public async Task<IEnumerable<Employee>> GetEmployeesAsync()

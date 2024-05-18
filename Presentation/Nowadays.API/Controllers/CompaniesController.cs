@@ -5,6 +5,7 @@ using Nowadays.Application.Features.Commands.Company.DeleteCompany;
 using Nowadays.Application.Features.Commands.Company.UpdateCompany;
 using Nowadays.Application.Features.Queries.Company.GetCompanies;
 using Nowadays.Application.Features.Queries.Company.GetCompanyById;
+using Nowadays.Application.Features.Queries.Company.GetCompanyDetails;
 
 namespace Nowadays.API.Controllers
 {
@@ -37,6 +38,13 @@ namespace Nowadays.API.Controllers
     public async Task<IActionResult> GetCompaniesAsync()
     {
       var response = await _mediator.Send(new GetCompaniesQueryRequest());
+      return Ok(response);
+    }
+
+    [HttpGet("details")]
+    public async Task<IActionResult> GetCompanyDetailsAsync([FromQuery] Guid? id)
+    {
+      var response = await _mediator.Send(new GetCompanyDetailsQueryRequest { Id = id });
       return Ok(response);
     }
 

@@ -52,6 +52,16 @@ namespace Nowadays.Persistence.Services
       return await _projectReadRepository.GetByIdAsync(id.ToString(), false);
     }
 
+    public async Task<IEnumerable<Project>> GetProjectDetailsAsync(Guid? id)
+    {
+      IQueryable<Project> query = _projectReadRepository.GetAll(false);
+
+      if (id.HasValue)
+        query = query.Where(p => p.Id == id);
+
+      return await query.Include(p => p.Issues).Include(p => p.Employees).Include(p => p.Company).ToListAsync();
+    }
+
     public async Task<Project> UpdateAsync(Project project)
     {
       _projectWriteRepository.Update(project);

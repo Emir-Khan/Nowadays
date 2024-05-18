@@ -4,6 +4,7 @@ using Nowadays.Application.Features.Commands.Employee.CreateEmployee;
 using Nowadays.Application.Features.Commands.Employee.DeleteEmployee;
 using Nowadays.Application.Features.Commands.Employee.UpdateEmployee;
 using Nowadays.Application.Features.Queries.Employee.GetEmployeeById;
+using Nowadays.Application.Features.Queries.Employee.GetEmployeeDetails;
 using Nowadays.Application.Features.Queries.Employee.GetEmployees;
 
 namespace Nowadays.API.Controllers
@@ -31,6 +32,13 @@ namespace Nowadays.API.Controllers
     {
       var employee = await _mediator.Send(new GetEmployeeByIdQueryRequest { Id = id });
       return Ok(employee);
+    }
+
+    [HttpGet("details")]
+    public async Task<IActionResult> GetEmployeeDetails([FromQuery] Guid? id)
+    {
+      var employees = await _mediator.Send(new GetEmployeeDetailsQueryRequest { Id = id });
+      return Ok(employees);
     }
 
     [HttpPost]

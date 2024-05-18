@@ -5,6 +5,7 @@ using Nowadays.Application.Features.Commands.Project.CreateProject;
 using Nowadays.Application.Features.Commands.Project.DeleteProject;
 using Nowadays.Application.Features.Commands.Project.UpdateProject;
 using Nowadays.Application.Features.Queries.Project.GetProjectById;
+using Nowadays.Application.Features.Queries.Project.GetProjectDetails;
 using Nowadays.Application.Features.Queries.Project.GetProjects;
 
 namespace Nowadays.API.Controllers
@@ -20,13 +21,6 @@ namespace Nowadays.API.Controllers
       _mediator = mediator;
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProjectById([FromRoute] Guid id)
-    {
-      var response = await _mediator.Send(new GetProjectByIdQueryRequest { Id = id });
-      return Ok(response);
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetProjects()
     {
@@ -34,6 +28,20 @@ namespace Nowadays.API.Controllers
       return Ok(response);
     }
 
+    [HttpGet("details")]
+    public async Task<IActionResult> GetProjectDetails([FromQuery] Guid? id)
+    {
+      var response = await _mediator.Send(new GetProjectDetailsQueryRequest { Id = id });
+      return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProjectById([FromRoute] Guid id)
+    {
+      var response = await _mediator.Send(new GetProjectByIdQueryRequest { Id = id });
+      return Ok(response);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> CreateProject([FromBody] CreateProjectCommandRequest command)
     {

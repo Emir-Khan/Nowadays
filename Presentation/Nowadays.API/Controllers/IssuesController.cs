@@ -5,6 +5,7 @@ using Nowadays.Application.Features.Commands.Issue.CreateIssue;
 using Nowadays.Application.Features.Commands.Issue.DeleteIssue;
 using Nowadays.Application.Features.Commands.Issue.UpdateIssue;
 using Nowadays.Application.Features.Queries.Issue.GetIssueById;
+using Nowadays.Application.Features.Queries.Issue.GetIssueDetails;
 using Nowadays.Application.Features.Queries.Issue.GetIssues;
 
 namespace Nowadays.API.Controllers
@@ -24,6 +25,13 @@ namespace Nowadays.API.Controllers
     public async Task<IActionResult> GetIssues()
     {
       var issues = await _mediator.Send(new GetIssuesQueryRequest());
+      return Ok(issues);
+    }
+
+    [HttpGet("details")]
+    public async Task<IActionResult> GetIssueDetails([FromQuery] Guid? id)
+    {
+      var issues = await _mediator.Send(new GetIssueDetailsQueryRequest { Id = id });
       return Ok(issues);
     }
 

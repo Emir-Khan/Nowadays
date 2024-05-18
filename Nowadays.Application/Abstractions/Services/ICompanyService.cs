@@ -8,6 +8,7 @@ namespace Nowadays.Application.Abstractions.Services
     Task<Company> UpdateCompanyAsync(Company company);
     Task DeleteCompanyAsync(Guid id);
     Task<Company> GetCompanyByIdAsync(Guid id);
+    Task<IEnumerable<Company>> GetCompanyDetailsAsync(Guid? id = null);
     Task<IEnumerable<Company>> GetCompaniesAsync();
   }
 }

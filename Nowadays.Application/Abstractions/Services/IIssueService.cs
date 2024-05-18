@@ -6,6 +6,7 @@ namespace Nowadays.Application.Abstractions.Services
   {
     Task<IEnumerable<Issue>> GetIssuesAsync();
     Task<Issue> GetIssueByIdAsync(Guid id);
+    Task<IEnumerable<Issue>> GetIssueDetailsAsync(Guid? id = null);
     Task<Issue> CreateIssueAsync(Issue issue);
     Task<Issue> UpdateIssueAsync(Issue issue);
     Task DeleteIssueAsync(Guid id);

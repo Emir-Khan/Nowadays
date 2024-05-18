@@ -23,7 +23,7 @@ namespace Nowadays.Persistence.Services
       var issue = await _issueReadRepository.GetByIdAsync(issueId.ToString());
       var employee = await _employeeReadRepository.Table.Where(e => e.Id == employeeId)
         .Include(e => e.Projects)
-        .FirstOrDefaultAsync() ?? throw new Exception("Employee not found");
+        .FirstOrDefaultAsync() ?? throw new Exception("This employee is not assigned to the issue's project or employee not found. ");
 
       issue.Employees = [employee];
       _issueWriteRepository.Update(issue);
@@ -47,6 +47,16 @@ namespace Nowadays.Persistence.Services
     public async Task<Issue> GetIssueByIdAsync(Guid id)
     {
       return await _issueReadRepository.GetByIdAsync(id.ToString(), false);
+    }
+
+    public async Task<IEnumerable<Issue>> GetIssueDetailsAsync(Guid? id = null)
+    {
+      IQueryable<Issue> query = _issueReadRepository.GetAll(false);
+
+      if (id.HasValue)
+        query = query.Where(i => i.Id == id);
+
+      return await query.Include(i => i.Employees).Include(i => i.Project).ToListAsync();
     }
 
     public async Task<IEnumerable<Issue>> GetIssuesAsync()
