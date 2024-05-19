@@ -66,8 +66,8 @@ namespace Nowadays.API.Controllers
     [HttpPost("assign-employee")]
     public async Task<IActionResult> AssignEmployee([FromBody] AssignEmployeeToProjectCommandRequest request)
     {
-      var response = await _mediator.Send(request);
-      return Ok(response);
+      await _mediator.Send(request);
+      return Ok();
     }
   }
 }

@@ -27,6 +27,7 @@ namespace Nowadays.Persistence
       services.AddScoped<IProjectService, ProjectService>();
       services.AddScoped<IEmployeeService, EmployeeService>();
       services.AddScoped<IIssueService, IssueService>();
+      services.AddScoped<IReportService, ReportService>();
     }
   }
 }

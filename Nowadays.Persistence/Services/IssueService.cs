@@ -9,20 +9,21 @@ namespace Nowadays.Persistence.Services
   {
     readonly IIssueReadRepository _issueReadRepository;
     readonly IIssueWriteRepository _issueWriteRepository;
-    readonly IEmployeeReadRepository _employeeReadRepository;
+    readonly IProjectReadRepository _projectReadRepository;
 
-    public IssueService(IIssueReadRepository issueReadRepository, IIssueWriteRepository issueWriteRepository, IEmployeeReadRepository employeeReadRepository)
+
+    public IssueService(IIssueReadRepository issueReadRepository, IIssueWriteRepository issueWriteRepository, IProjectReadRepository employeeReadRepository)
     {
       _issueReadRepository = issueReadRepository;
       _issueWriteRepository = issueWriteRepository;
-      _employeeReadRepository = employeeReadRepository;
+      _projectReadRepository = employeeReadRepository;
     }
 
     public async Task AssignEmployeeAsync(Guid issueId, Guid employeeId)
     {
       var issue = await _issueReadRepository.GetByIdAsync(issueId.ToString());
-      var employee = await _employeeReadRepository.Table.Where(e => e.Id == employeeId)
-        .Include(e => e.Projects)
+      var employee = await _projectReadRepository.Table.Include(p => p.Employees.Where(e => e.Id == employeeId))
+        .SelectMany(p => p.Employees)
         .FirstOrDefaultAsync() ?? throw new Exception("This employee is not assigned to the issue's project or employee not found. ");
 
       issue.Employees = [employee];
