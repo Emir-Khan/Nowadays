@@ -1,14 +1,22 @@
 using Nowadays.Persistence;
 using Nowadays.Application;
+using Nowadays.Infrastructure;
+using Nowadays.Application.Validators.Employee;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation().AddValidatorsFromAssemblyContaining<CreateEmployee>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

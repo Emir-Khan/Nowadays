@@ -26,6 +26,8 @@ namespace Nowadays.Application.Features.Queries.Employee.GetEmployeeDetails
           Id = e.Id,
           Name = e.Name,
           Email = e.Email,
+          TCKN = e.TCKN,
+          BirthDate = e.BirthDate,
           Projects = e.Projects.Select(p => new ListProject
           {
             Id = p.Id,

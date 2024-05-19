@@ -9,16 +9,19 @@ namespace Nowadays.Persistence.Services
   {
     readonly IEmployeeReadRepository _employeeReadRepository;
     readonly IEmployeeWriteRepository _employeeWriteRepository;
+    readonly ITcknValidateService _tcknValidateService;
 
-    public EmployeeService(IEmployeeReadRepository employeeReadRepository, IEmployeeWriteRepository employeeWriteRepository)
+    public EmployeeService(IEmployeeReadRepository employeeReadRepository, IEmployeeWriteRepository employeeWriteRepository, ITcknValidateService tcknValidateService)
     {
       _employeeReadRepository = employeeReadRepository;
       _employeeWriteRepository = employeeWriteRepository;
+      _tcknValidateService = tcknValidateService;
     }
 
     public async Task<Employee> CreateEmployeeAsync(Employee employee)
     {
-      // todo check tckn
+      await IsTcknValid(employee);
+
       await _employeeWriteRepository.AddAsync(employee);
       await _employeeWriteRepository.SaveAsync();
       return employee;
@@ -52,9 +55,19 @@ namespace Nowadays.Persistence.Services
 
     public async Task<Employee> UpdateEmployeeAsync(Employee employee)
     {
+      await IsTcknValid(employee);
+
       _employeeWriteRepository.Update(employee);
       await _employeeWriteRepository.SaveAsync();
       return employee;
+    }
+
+    private async Task<bool> IsTcknValid(Employee employee)
+    {
+      if (!await _tcknValidateService.ValidateTcknAsync(employee.TCKN, employee.Name, employee.Surname, employee.BirthDate))
+        throw new Exception("TCKN is not valid");
+
+      return true;
     }
   }
 }

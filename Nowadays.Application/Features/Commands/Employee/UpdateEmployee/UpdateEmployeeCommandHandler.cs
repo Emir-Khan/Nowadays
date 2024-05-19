@@ -1,10 +1,5 @@
 ﻿using MediatR;
 using Nowadays.Application.Abstractions.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nowadays.Application.Features.Commands.Employee.UpdateEmployee
 {
@@ -19,27 +14,22 @@ namespace Nowadays.Application.Features.Commands.Employee.UpdateEmployee
 
     public async Task<UpdateEmployeeCommandResponse> Handle(UpdateEmployeeCommandRequest request, CancellationToken cancellationToken)
     {
-      var dbEmployee = await _employeeService.GetEmployeeByIdAsync(request.Id);
-      request.Name ??= dbEmployee.Name;
-      request.Surname ??= dbEmployee.Surname;
-      request.Email ??= dbEmployee.Email;
-      request.TCKN ??= dbEmployee.TCKN;
+      var employee = await _employeeService.GetEmployeeByIdAsync(request.Id);
+      employee.Name = request.Name ?? employee.Name;
+      employee.Surname = request.Surname ?? employee.Surname;
+      employee.Email = request.Email ?? employee.Email;
+      employee.TCKN = request.TCKN ?? employee.TCKN;
+      employee.BirthDate = request.BirthDate ?? employee.BirthDate;
 
-      var updatedEmployee = await _employeeService.UpdateEmployeeAsync(new Domain.Entities.Employee
-      {
-        Id = request.Id,
-        Name = request.Name,
-        Surname = request.Surname,
-        Email = request.Email,
-        TCKN = request.TCKN
-      });
+      var updatedEmployee = await _employeeService.UpdateEmployeeAsync(employee);
       return new UpdateEmployeeCommandResponse()
       {
         Id = updatedEmployee.Id,
         Name = updatedEmployee.Name,
         Surname = updatedEmployee.Surname,
         Email = updatedEmployee.Email,
-        TCKN = updatedEmployee.TCKN
+        TCKN = updatedEmployee.TCKN,
+        BirthDate = updatedEmployee.BirthDate
       };
     }
   }

@@ -29,7 +29,8 @@ namespace Nowadays.Application.Features.Queries.Employee.GetEmployees
           Name = e.Name,
           Surname = e.Surname,
           Email = e.Email,
-          TCKN = e.TCKN
+          TCKN = e.TCKN,
+          BirthDate = e.BirthDate
         })
       };
     }

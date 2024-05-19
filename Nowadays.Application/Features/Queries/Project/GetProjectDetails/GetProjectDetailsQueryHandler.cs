@@ -33,7 +33,8 @@ namespace Nowadays.Application.Features.Queries.Project.GetProjectDetails
           Email = e.Email,
           Name = e.Name,
           Surname = e.Surname,
-          TCKN = e.TCKN
+          TCKN = e.TCKN,
+          BirthDate = e.BirthDate
         }).ToList(),
         AssignedIssues = p.Issues.Select(i => new ListIssue
         {

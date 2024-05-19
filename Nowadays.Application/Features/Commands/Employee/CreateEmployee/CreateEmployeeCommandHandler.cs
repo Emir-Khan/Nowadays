@@ -19,7 +19,8 @@ namespace Nowadays.Application.Features.Commands.Employee.CreateEmployee
         Name = request.Name,
         Surname = request.Surname,
         Email = request.Email,
-        TCKN = request.TCKN
+        TCKN = request.TCKN,
+        BirthDate = request.BirthDate
       });
       return new CreateEmployeeCommandResponse()
       {
@@ -27,7 +28,8 @@ namespace Nowadays.Application.Features.Commands.Employee.CreateEmployee
         Name = employee.Name,
         Surname = employee.Surname,
         Email = employee.Email,
-        TCKN = employee.TCKN
+        TCKN = employee.TCKN,
+        BirthDate = employee.BirthDate
       };
     }
   }

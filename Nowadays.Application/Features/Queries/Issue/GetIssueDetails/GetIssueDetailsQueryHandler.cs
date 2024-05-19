@@ -35,7 +35,8 @@ namespace Nowadays.Application.Features.Queries.Issue.GetIssueDetails
             Name = e.Name,
             Surname = e.Surname,
             Email = e.Email,
-            TCKN = e.TCKN
+            TCKN = e.TCKN,
+            BirthDate = e.BirthDate
           })
         })
       };
